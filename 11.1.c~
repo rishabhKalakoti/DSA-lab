@@ -45,45 +45,6 @@ void addVertex(char data)
 	N++;
 }
 
-void removeVertex(char data)
-{
-	node* temp;
-	temp=(node*)malloc(sizeof(node));
-	
-	temp=start;
-	if(temp->data==data)
-	{
-		start=temp->next;
-		free(temp);
-	}
-	else
-	{
-		while(temp->next->data!=data)
-			temp=temp->next;
-		node* temp1;
-		temp1=(node*)malloc(sizeof(node));
-		temp1=temp->next;
-		temp->next=temp1->next;
-		free(temp1);
-	}
-	N--;
-}
-
-void printVertex()
-{
-	printf("Vertices:\t");
-	node* temp;
-	temp=(node*)malloc(sizeof(node));
-	temp=start;
-	while(temp!=NULL)
-	{
-		printf("%c ", temp->data);
-		temp=temp->next;
-	}
-	printf("\n");
-}
-
-
 void addEdge(char v, char u)
 {
 	node* temp;
@@ -119,70 +80,6 @@ void addEdge(char v, char u)
 	}
 }
 
-void removeEdge(char v, char u)
-{
-	node* temp;
-	temp=(node*)malloc(sizeof(node));
-	
-	edge* tempE;
-	tempE=(edge*)malloc(sizeof(edge));
-	
-	temp=start;
-	
-	if(temp->data!=v)
-	{
-		while(temp->next->data!=v)
-			temp=temp->next;
-		temp=temp->next;
-	}
-	//
-	if(temp->path!=NULL)
-	{
-		tempE=temp->path;
-		if(tempE->data==u)
-		{
-			temp->path=tempE->next;
-			free(tempE);
-		}
-		else
-		{
-			edge* tempE1;
-			tempE1=(edge*)malloc(sizeof(edge));
-		
-			while(tempE->next->data!=u)
-				tempE=tempE->next;
-			tempE1=tempE->next;
-			tempE->next=tempE1->next;
-			free(tempE1);
-		}
-		
-	}
-}
-
-void printEdge(char data)
-{
-	printf("%c:\t",data);
-	node* temp;
-	temp=(node*)malloc(sizeof(node));
-	
-	temp=start;
-	while(temp->data!=data)
-		temp=temp->next;
-	if(temp->path!=NULL)
-	{
-		edge* tempE;
-		tempE=(edge*)malloc(sizeof(edge));
-		
-		tempE=temp->path;
-		while(tempE->next!=NULL)
-		{
-			printf("-%c", tempE->data);
-			tempE=tempE->next;
-		}
-		printf("-%c", tempE->data);
-	}
-	printf("\n");
-}
 
 node* searchVertex(char data)
 {
@@ -206,9 +103,7 @@ node* searchVertex(char data)
 
 int dfs(node* temp)
 {
-	// push all elements to stack one by one and implement dfs on them
 	temp->visited=1;
-	//printf("%c ", temp->data);
 	if(temp->path!=NULL)
 	{
 		edge* tempE;
@@ -236,8 +131,7 @@ int dfs(node* temp)
 
 int checkCycle(node* temp)
 {
-    // dfs inplementation
-	temp=start;
+    temp=start;
 	while(temp!=NULL)
 	{
 		temp->visited=0;
@@ -256,83 +150,28 @@ int checkCycle(node* temp)
     	temp=temp->next;
     }
     return 0;
-    //int c=-1;
-    //node* stack[N];
-    /*
-    temp=searchVertex(x);
-    temp->visited=1;
-    
-    edge* tempE;
-	tempE=(edge*)malloc(sizeof(edge));
-			
-    Q[c+1]=temp;
-    if(temp->data==y)
-    	return 1;
-	c++;
-	while(c>-1)
-	{
-		temp=Q[0];
-		int j;
-		for(j=0; j<c;j++)
-			Q[j]=Q[j+1];
-		Q[c]=NULL;
-		c--;
-		// add all
-		// while queuing, check, visited=1, x++
-		if(temp->path!=NULL)
-		{
-			tempE=temp->path;
-			// chk
-			if(tempE->data==y)
-				return 1;
-			if(searchVertex(tempE->data)->visited!=1)
-			{
-				searchVertex(tempE->data)->visited=1;
-				Q[c+1]=searchVertex(tempE->data);
-				c++;
-			}
-			while(tempE->next!=NULL)
-			{
-				tempE=tempE->next;
-				// chk
-				if(tempE->data==y)
-					return 1;
-				if(searchVertex(tempE->data)->visited!=1)
-				{
-					searchVertex(tempE->data)->visited=1;
-					Q[c+1]=searchVertex(tempE->data);
-					c++;
-				}
-			}
-		}
-	}*/
-	//return 0;
 }
 void main()
 {
-	//printf("\n");
-	
 	addVertex('A');
 	addVertex('B');
 	addVertex('C');
 	addVertex('D');
-	//printVertex();
 	
 	// case 1
-	
+	/*
 	addEdge('A', 'B');
 	addEdge('A', 'C');
 	addEdge('B', 'D');
 	addEdge('D', 'C');
 	addEdge('D', 'A');
+	*/
 	// case 2
 	
-	//addEdge('A', 'B');
-	//addEdge('A', 'C');
-	//addEdge('D', 'C');
-	//addEdge('D', 'B');
-	
-	//printEdge('A');
+	addEdge('A', 'B');
+	addEdge('A', 'C');
+	addEdge('D', 'C');
+	addEdge('D', 'B');
 	
 	// check cycle
 	if(checkCycle(start)==1)
